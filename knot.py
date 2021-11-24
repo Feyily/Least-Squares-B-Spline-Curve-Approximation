@@ -67,3 +67,14 @@ def check_knot_v(U, u):
     if (u < U[0]).any() or (u > U[-1]).any():
         raise Exception(U, u)
     return u
+
+
+def uni_knot_vec(n, p):
+    ''' Construct a uniform and normalized knot vector, i.e. all
+    interior knots are equally spaced and lie in [0, 1]. '''
+    U = np.zeros(n + p + 2)
+    for j in range(1, n - p + 1):
+        U[j+p] = float(j) / (n - p + 1)
+    U[-p-1:] = 1.0
+    clean_knot_vec(U)
+    return U
