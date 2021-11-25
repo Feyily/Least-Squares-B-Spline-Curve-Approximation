@@ -7,9 +7,9 @@ from fit import *
 
 
 def construct_flat_grid(Us, nums=None):
-    ''' Construct a flattened, nonuniform (or optionally uniform)
-    n-dimensional parametric grid.  Tried to use mgrid, but, unlike with
-    linspace, I encountered floating point inaccuracies. '''
+    '''
+    生成采样点
+    '''
     Us = [np.asfarray(U) for U in Us]
     if nums is not None:
         Us = [np.linspace(U[0], U[-1], num)
@@ -37,9 +37,8 @@ def construct_flat_grid(Us, nums=None):
 
 
 def rat_curve_point_v(n, p, U, Pw, u, num):
-    """ Idem rat_curve_point, vectorized in u.  Makes use of array
-    broadcasting (see numpy manual).
-
+    """ 
+    计算曲线在参数u处的函数值
     """
 
     u = np.asfarray(u)
@@ -73,33 +72,30 @@ def genrate_points():
 
 
 def fit_curve(Q, Ds, De, ncp, p=3):
-    ''' Refit an arbitrary Curve with another Curve of arbitrary degree
-    by sampling it at equally spaced intervals.  If possible the
-    original end derivatives are kept intact.
-
+    '''
     Parameters
     ----------
-    C = the Curve to refit
-    ncp = the number of control points to use in the fit
-    p = the degree to use in the fit
-    num = the number of points to sample C with
+    Q = 要拟合的散点
+    Ds = 曲线头部的导数
+    De = 曲线尾部的导数
+    ncp = 拟合使用的控制顶点数
+    p = 拟合曲线使用的阶数
 
     Returns
     -------
-    Curve = the refitted Curve
-
+    U = 拟合出曲线的结点向量
+    Pw = 拟合出曲线的控制顶点
     '''
 
     U, Pw = global_curve_approx_fixedn_ders(len(Q) - 1, Q, p, ncp - 1,
                                             len(Ds), Ds, len(De), De)
-    # return curve.Curve(curve.ControlPolygon(Pw=Pw), (p,), (U,))
     us, = construct_flat_grid((U,), (1000,))
     n = np.array(Pw.shape[:-1]) - 1
     sp = rat_curve_point_v(n, p, U, Pw, us, len(us))
 
     ax.scatter(sp[0], sp[1], sp[2])
     plt.show()
-    pass
+    return U, Pw
 
 
 if __name__ == "__main__":

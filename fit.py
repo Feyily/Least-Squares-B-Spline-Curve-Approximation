@@ -7,27 +7,26 @@ import basis
 
 def global_curve_approx_fixedn_ders(r, Q, p, n, k, Ds, l, De, uk=None):
 
-    ''' Idem to global_curve_approx_fixedn, but, in addition to the data
-    points, end derivatives are also given
+    ''' 
+    给出曲线在起始位置的导数Ds， 和末尾处的导数De，拟合曲线
 
                Ds^1,...,Ds^k    De^1,...,De^l    k,l < p + 1
 
-    where Ds^i denotes the ith derivative at the start point and De^j
-    the jth derivative at the end.
+    其中 Ds^i 表示曲线在起始位置处的i阶导数， De^j 表示曲线在末尾处的j阶导数.
 
     Parameters
     ----------
-    r + 1 = the number of data points to fit
-    Q = the point set in object matrix form
-    p = the degree of the fit
-    n + 1 = the number of control points to use in the fit
-    k, l = the number of start and end point derivatives
-    Ds, De = the start and end point derivatives
-    uk = the parameter values associated to each data point (if available)
+    r + 1 = 待拟合散点的个数
+    Q = 矩阵形式的散点
+    p = 拟合曲线使用的阶数
+    n + 1 = 拟合使用的控制顶点数
+    k, l = 待拟合曲线起始位置、末尾导数的个数
+    Ds, De = 待拟合曲线起始位置、末尾导数
+    uk = 每个散点对应的参数值（可以置空）
 
     Returns
     -------
-    U, Pw = the knot vector and the object matrix of the fitted curve
+    U, Pw = 拟合出的曲线的结点向量和控制顶点
 
     Source
     ------
@@ -79,10 +78,8 @@ def global_curve_approx_fixedn_ders(r, Q, p, n, k, Ds, l, De, uk=None):
 
 def build_decompose_NTN(r, p, n, uk, U, k=0, l=0):
 
-    ''' Build the matrix of scalars NTN necessary to solve the
-    least-squares problem for curve and surface approximations.  The
-    matrix is also decomposed using sparse LU.
-
+    ''' 
+    构造NTN矩阵，并返回该矩阵的lu分解（见论文）
     '''
 
     m = n + p + 1

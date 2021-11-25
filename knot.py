@@ -3,8 +3,9 @@ NDEC = 5
 
 
 def chord_length_param(n, Q):
-    ''' Compute parameter values based on chord length parameterization.
-    Assumes that the parameters lie in the range u in [0, 1]. '''
+    ''' 
+    用弦长表示参数的取值（假设u的范围是[0, 1]）
+    '''
     Ub = np.zeros(n + 1)
     clk = np.zeros(n + 1)
     for k in range(1, n + 1):
@@ -17,8 +18,9 @@ def chord_length_param(n, Q):
 
 
 def approximating_knot_vec_end(n, p, r, k, l, Ub):
-    ''' Construct a knot vector especially for approximation problems
-    with end derivatives specified. '''
+    ''' 
+    构造结点向量
+    '''
     U = np.zeros(n + p + 2)
     for i in range(p + 1):
         U[i], U[n+i+1] = Ub[0], Ub[r]
@@ -51,15 +53,17 @@ def approximating_knot_vec_end(n, p, r, k, l, Ub):
 
 
 def clean_knot_vec(U):
-    ''' Clean the entire knot vector U, i.e. ensure there are no close
+    ''' 
+    Clean the entire knot vector U, i.e. ensure there are no close
     knots.  For example, this is called automatically by a NURBSObject
-    upon instantiation (IN-PLACE). '''
+    upon instantiation (IN-PLACE). 
+    '''
     Ui, ind = np.unique(U.round(decimals=NDEC), return_inverse=True)
     U[:] = Ui[ind]
 
 
 def check_knot_v(U, u):
-    ''' Idem check_knot, vectorized in u. '''
+    # 检查节点向量的合理性
     u = np.asfarray(u)
     ur = np.round(u, decimals=NDEC)
     u[U[0] == ur] = U[0]
@@ -70,8 +74,9 @@ def check_knot_v(U, u):
 
 
 def uni_knot_vec(n, p):
-    ''' Construct a uniform and normalized knot vector, i.e. all
-    interior knots are equally spaced and lie in [0, 1]. '''
+    ''' 
+    构造一个均匀的节点向量
+    '''
     U = np.zeros(n + p + 2)
     for j in range(1, n - p + 1):
         U[j+p] = float(j) / (n - p + 1)

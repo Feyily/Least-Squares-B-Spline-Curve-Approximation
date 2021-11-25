@@ -4,13 +4,9 @@ import knot
 
 def ders_basis_funs(i, u, p, n, U):
 
-    ''' Compute the nonzero basis functions and their derivatives, up to
-    and including the nth derivative (n <= p).  Output is in the
-    two-dimensional array, ders.  ders[k,j] is the kth derivative of the
-    function N_(i-p+j,p)(u) where (0 <= k <= n) and (0 <= j <= p).
-
-    Source: The NURBS Book (2nd Ed.), Pg. 72.
-
+    ''' 
+    计算所有非零基函数及其导数（包含n阶导数），返回是一个二维数组`der`，其中
+    `ders[k,j]`是N_(i-p+j,p)(u) (0 <= k <= n) 且 (0 <= j <= p)的k阶导数
     '''
 
     ders = np.zeros((n + 1, p + 1))
@@ -65,8 +61,8 @@ def ders_basis_funs(i, u, p, n, U):
 
 
 def one_basis_fun_v(p, m, U, i, u, num):
-    ''' Idem one_basis_fun, vectorized in u.
-
+    '''
+    计算单个基函数，例如N_(i,p)(u)
     '''
 
     u = np.asfarray(u)
@@ -111,8 +107,8 @@ def one_basis_fun_v(p, m, U, i, u, num):
 
 def find_span_v(n, p, U, u, num):
 
-    ''' Idem find_span, vectorized in u..
-
+    ''' 
+    查找参数u所在的节点向量区间
     '''
 
     u = knot.check_knot_v(U, u)
@@ -132,8 +128,8 @@ def find_span_v(n, p, U, u, num):
 
 def basis_funs_v(i, u, p, U, num):
 
-    ''' Idem basis_funs, vectorized in u.
-
+    ''' 
+    计算参数u处的基函数
     '''
 
     N = np.zeros((p + 1, num))

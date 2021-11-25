@@ -2,8 +2,9 @@ import numpy as np
 
 
 def obj_mat_to_3D(Pw):
-    ''' Convert a 4D (homogeneous) object matrix to a 3D object matrix,
-    i.e. a (... x 4) to a (... x 3) matrix. '''
+    ''' 
+    将齐次矩阵（4维）转换成三维矩阵
+    '''
     Pw = np.asfarray(Pw)
     if Pw.shape[-1] == 3:
         return Pw
@@ -12,9 +13,10 @@ def obj_mat_to_3D(Pw):
 
 
 def obj_mat_to_4D(P, w=None):
-    ''' Idem obj_mat_to_3D, vice versa.  If w is None, all weights are
-    set to unity, otherwise it is assumed that w has one less dimension
-    than P. '''
+    ''' 
+    和obj_mat_to_3D相反，将三维矩阵转换成齐次矩阵。如果w是None，则所有的权重
+    均为1；如果给定了w，则使用w的权重（w比P少一维）
+    '''
     P = np.asfarray(P)
     s = P.shape
     if s[-1] == 4:
